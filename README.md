@@ -1,8 +1,8 @@
 # this is for testing Api
 
-## change for env
+## Create .env and add token
 now .env have to change for your id, so don't do mine, it will be so wrong. You can get this from Line Api message.
-For mongoDB, you know what to do.
+For mongoDB, you know what to do. (don't get expose like me, i almost expose my token, damn)
 *  ACCESS_TOKEN, and SECRET_TOKEN from line api
 *  MONGODB_URI from mongoDB
 
