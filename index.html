@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat Display</title>
+    <style>
+      .chat-container {
+        width: 300px;
+        max-width: 100%;
+        margin: auto;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .message {
+        margin: 10px 0;
+        padding: 5px;
+        border-radius: 5px;
+        background-color: #f1f1f1;
+      }
+      .timestamp {
+        font-size: 0.8em;
+        color: #888;
+      }
+      .user-id {
+        font-weight: bold;
+      }
+      .text {
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-container" id="chat-container">
+      <!-- Messages will be appended here -->
+    </div>
+
+    <script>
+      async function loadMessages() {
+        const response = await fetch(
+          "https://6444-168-120-248-30.ngrok-free.app/get_messages"
+        );
+        if (!response.ok) {
+          console.error("Failed to fetch messages:", response.statusText);
+          return;
+        }
+        const text = await response.text(); // Get response as text first
+        console.log("Raw response:", text); // Log the raw response
+
+        try {
+          const messages = JSON.parse(text); // Attempt to parse as JSON
+          const chatContainer = document.getElementById("chat-container");
+
+          messages.forEach((msg) => {
+            const messageDiv = document.createElement("div");
+            messageDiv.className = "message";
+            messageDiv.innerHTML = `
+                <div class="timestamp">${new Date(
+                  msg.timestamp
+                ).toLocaleString()}</div>
+                <div class="user-id">${msg.user_id}</div>
+                <div class="text">${msg.message_text}</div>
+            `;
+            chatContainer.appendChild(messageDiv);
+          });
+        } catch (e) {
+          console.error("Error parsing JSON:", e);
+        }
+      }
+
+      loadMessages();
+    </script>
+  </body>
+</html>
